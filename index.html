@@ -1,150 +1,81 @@
-<!DOCTYPE html><html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Be My Valentine ❤️</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Poppins', sans-serif;
-      height: 100vh;
-      background: radial-gradient(circle at top, #ff5fa2, #b4004e);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      color: white;
-    }.reel {
-  width: 360px;
-  height: 640px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
-  backdrop-filter: blur(12px);
-  border-radius: 28px;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.4);
-  position: relative;
-  overflow: hidden;
-  padding: 24px;
-  text-align: center;
-}
+import { motion, useScroll, useTransform } from "framer-motion"; import { useRef } from "react"; import { Heart, Sparkles } from "lucide-react";
 
-.step {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 0.8s ease;
-  padding: 24px;
-}
+export default function ValentineReel() { const name = "SHyaa"; const containerRef = useRef(null); const { scrollYProgress } = useScroll({ container: containerRef });
 
-.step.active {
-  opacity: 1;
-  transform: translateY(0);
-}
+const scale = useTransform(scrollYProgress, [0, 1], [1, 1.25]); const fadeOut = useTransform(scrollYProgress, [0.7, 1], [1, 0]);
 
-h1, h2 {
-  margin-bottom: 16px;
-  line-height: 1.2;
-}
+return ( <div
+ref={containerRef}
+className="h-screen w-full overflow-y-scroll snap-y snap-mandatory bg-gradient-to-br from-rose-200 via-pink-300 to-red-300 font-serif relative overflow-hidden"
+> {/* Scene 1 – Soft intro */} <section className="h-screen snap-start flex items-center justify-center"> <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2 }} className="text-center px-6" > <p className="text-xl text-rose-700 tracking-wide">Hey love,</p> <h1 className="text-5xl md:text-6xl font-bold mt-6 text-red-700 drop-shadow-lg"> This is for you ❤️ </h1> </motion.div> </section>
 
-h1 { font-size: 28px; }
-h2 { font-size: 22px; }
+{/* Scene 2 – Love story */}
+  <section className="h-screen snap-start flex items-center justify-center">
+    <motion.div
+      style={{ scale }}
+      className="bg-white/60 backdrop-blur-2xl rounded-3xl p-10 shadow-2xl max-w-xl text-center"
+    >
+      <p className="text-lg text-gray-700">Every smile of yours…</p>
+      <p className="text-lg text-gray-700 mt-3">every late night talk…</p>
+      <p className="text-lg text-gray-700 mt-3">somehow became my favorite part of the day.</p>
+    </motion.div>
+  </section>
 
-p {
-  font-size: 18px;
-  opacity: 0.95;
-  margin-bottom: 24px;
-}
+  {/* Scene 3 – Emotional peak */}
+  <section className="h-screen snap-start flex items-center justify-center relative">
+    <motion.div
+      initial={{ scale: 0, rotate: -10 }}
+      animate={{ scale: 1, rotate: 0 }}
+      transition={{ type: "spring", stiffness: 100 }}
+      className="text-center"
+    >
+      <Heart className="w-24 h-24 text-red-600 mx-auto animate-pulse drop-shadow-xl" />
+      <h2 className="text-4xl md:text-5xl font-bold mt-8 text-red-700">
+        Will you be my Valentine?
+      </h2>
+    </motion.div>
 
-button {
-  background: white;
-  color: #b4004e;
-  border: none;
-  padding: 14px 26px;
-  border-radius: 999px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-}
+    <motion.div
+      style={{ opacity: fadeOut }}
+      className="absolute bottom-10 text-sm text-rose-800"
+    >
+      Scroll slowly ✨
+    </motion.div>
+  </section>
 
-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 14px 40px rgba(0,0,0,0.35);
-}
-
-.heart {
-  position: absolute;
-  bottom: -40px;
-  font-size: 24px;
-  animation: floatUp 6s linear infinite;
-  opacity: 0.8;
-}
-
-@keyframes floatUp {
-  0% { transform: translateY(0) scale(0.8); opacity: 0; }
-  10% { opacity: 1; }
-  100% { transform: translateY(-700px) scale(1.4); opacity: 0; }
-}
-
-.final h1 {
-  font-size: 32px;
-  animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.08); }
-}
-
-.yes-no {
-  display: flex;
-  gap: 16px;
-  margin-top: 20px;
-}
-
-.no {
-  background: rgba(255,255,255,0.3);
-  color: white;
-}
-
-  </style>
-</head>
-<body>
-  <div class="reel">
-    <div class="step active">
-      <h1>Hey… 👀</h1>
-      <p>I made something special just for you.</p>
-      <button onclick="nextStep()">Tap ❤️</button>
-    </div><div class="step">
-  <h2>Every moment with you…</h2>
-  <p>Feels like my favorite reel on repeat 🎬</p>
-  <button onclick="nextStep()">Next ✨</button>
-</div>
-
-<div class="step">
-  <h2>You make my world brighter 🌍</h2>
-  <p>And my heart a little louder 💓</p>
-  <button onclick="nextStep()">Keep going 💕</button>
-</div>
-
-<div class="step final">
-  <h1>Will you be my Valentine? 💌</h1>
-  <div class="yes-no">
-    <button onclick="celebrate()">YES 😍</button>
-    <button class="no" onclick="tease()">No 🙃</button>
+  {/* Scene 4 – Romantic ending */}
+  <section className="h-screen snap-start flex items-center justify-center">
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.4, duration: 1 }}
+      className="text-center"
+    >
+      <Sparkles className="w-16 h-16 text-rose-600 mx-auto mb-6" />
+      <h3 className="text-3xl font-semibold text-red-700">Say yes 💍</h3>
+      <p className="mt-4 text-lg text-rose-700 max-w-md mx-auto">
+        And let’s turn this little website into the beginning of our forever.
+      </p>
+    </motion.div>
+  </section>
+      {/* Floating hearts background */}
+  <div className="pointer-events-none absolute inset-0 overflow-hidden">
+    {[...Array(20)].map((_, i) => (
+      <motion.span
+        key={i}
+        initial={{ y: "100vh", opacity: 0 }}
+        animate={{ y: "-10vh", opacity: 1 }}
+        transition={{
+          duration: 10 + Math.random() * 10,
+          repeat: Infinity,
+          delay: Math.random() * 5,
+        }}
+        className="absolute left-[${Math.random() * 100}%] text-pink-500 text-2xl"
+      >
+        ❤️
+      </motion.span>
+    ))}
   </div>
 </div>
 
-  </div><audio id="music" src="https://cdn.pixabay.com/download/audio/2022/10/03/audio_0d9b5c68df.mp3?filename=romantic-piano-121997.mp3"></audio>
-
-  <script>
-    const steps = document.querySelectorAll('.step');
-    let current = 0;
-
-    function nextStep() {
-      steps[current].classList
+); } }
